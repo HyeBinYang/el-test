@@ -48,6 +48,11 @@ const MusicInfoGroup = styled.div`
   align-items: center;
   column-gap: 20px;
 
+  img {
+    width: 60px;
+    height: 60px;
+  }
+
   .title {
     font-size: 16px;
     margin-bottom: 2px;
@@ -105,7 +110,7 @@ const ChartList = () => {
             </td>
             <td>
               <MusicInfoGroup>
-                <img src={music["im:image"][1]["label"]} alt="앨범" />
+                <img src={music["im:image"][1]["label"]} alt="앨범" loading="lazy" />
                 <div>
                   <p className="title">{music["im:name"]["label"]}</p>
                   <p className="artist">{music["im:artist"]["label"]}</p>

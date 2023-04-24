@@ -24,15 +24,15 @@ const musicsReducer = (state: Musics, actions: Action) => {
     case "SORT_MUSICS": {
       if (actions.payload.sort === "DESC") {
         state.sort((a, b) => {
-          if (a["im:name"]["label"] > b["im:name"]["label"]) return -1;
-          if (a["im:name"]["label"] < b["im:name"]["label"]) return 1;
+          if (a["im:name"]["label"].toLowerCase() > b["im:name"]["label"].toLowerCase()) return -1;
+          if (a["im:name"]["label"].toLowerCase() < b["im:name"]["label"].toLowerCase()) return 1;
           return 0;
         });
         return [...state];
       } else if (actions.payload.sort === "ASC") {
         state.sort((a, b) => {
-          if (a["im:name"]["label"] > b["im:name"]["label"]) return 1;
-          if (a["im:name"]["label"] < b["im:name"]["label"]) return -1;
+          if (a["im:name"]["label"].toLowerCase() > b["im:name"]["label"].toLowerCase()) return 1;
+          if (a["im:name"]["label"].toLowerCase() < b["im:name"]["label"].toLowerCase()) return -1;
           return 0;
         });
         return [...state];
@@ -41,7 +41,6 @@ const musicsReducer = (state: Musics, actions: Action) => {
       }
     }
     case "SEARCH_MUSIC": {
-      console.log(actions.payload.keyword);
       return state.filter((music) => music["im:name"]["label"].toLowerCase().includes(actions.payload.keyword));
     }
     default:
@@ -54,7 +53,7 @@ export const MusicsProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <MusicsDispatchContext.Provider value={dispatch}>
-      <MusicsStateContext.Provider value={musics}>{children}</MusicsStateContext.Provider>;
+      <MusicsStateContext.Provider value={musics}>{children}</MusicsStateContext.Provider>
     </MusicsDispatchContext.Provider>
   );
 };

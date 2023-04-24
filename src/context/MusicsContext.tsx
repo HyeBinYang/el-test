@@ -1,11 +1,16 @@
-import { Dispatch, ReactNode, createContext, useMemo, useReducer, useState } from "react";
+import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type Musics = any[];
+
+let cachedMusics: Musics = [];
 
 export const MusicsStateContext = createContext<Musics>([]);
 
 export type Sort = "ASC" | "DESC";
-type Action = { type: "GET_MUSICS"; payload: { musics: Musics } } | { type: "SORT_MUSICS"; payload: { sort: Sort } };
+type Action =
+  | { type: "GET_MUSICS"; payload: { musics: Musics } }
+  | { type: "SORT_MUSICS"; payload: { sort: Sort | null } }
+  | { type: "SEARCH_MUSIC"; payload: { keyword: string } };
 type MusicsDispatch = Dispatch<Action>;
 
 export const MusicsDispatchContext = createContext<MusicsDispatch | undefined>(undefined);
@@ -13,25 +18,31 @@ export const MusicsDispatchContext = createContext<MusicsDispatch | undefined>(u
 const musicsReducer = (state: Musics, actions: Action) => {
   switch (actions.type) {
     case "GET_MUSICS": {
-      console.log(actions.payload);
+      cachedMusics = [...actions.payload.musics];
       return actions.payload.musics;
     }
     case "SORT_MUSICS": {
       if (actions.payload.sort === "DESC") {
-        return state.sort((a, b) => {
+        state.sort((a, b) => {
           if (a["im:name"]["label"] > b["im:name"]["label"]) return -1;
           if (a["im:name"]["label"] < b["im:name"]["label"]) return 1;
           return 0;
         });
+        return [...state];
       } else if (actions.payload.sort === "ASC") {
-        return state.sort((a, b) => {
+        state.sort((a, b) => {
           if (a["im:name"]["label"] > b["im:name"]["label"]) return 1;
           if (a["im:name"]["label"] < b["im:name"]["label"]) return -1;
           return 0;
         });
+        return [...state];
       } else {
-        return state;
+        return [...cachedMusics];
       }
+    }
+    case "SEARCH_MUSIC": {
+      console.log(actions.payload.keyword);
+      return state.filter((music) => music["im:name"]["label"].toLowerCase().includes(actions.payload.keyword));
     }
     default:
       return state;

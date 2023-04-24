@@ -1,17 +1,13 @@
+import React, { useContext, useEffect, useRef } from "react";
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import { MusicsDispatchContext, MusicsStateContext, Sort } from "../context/MusicsContext";
-import queryString from "query-string";
 
 const Chart = () => {
   const musics = useContext(MusicsStateContext);
   const dispatch = useContext(MusicsDispatchContext);
-  const [searchParams] = useSearchParams();
-  const values = queryString.parse(searchParams.toString());
+  const inputEl = useRef<HTMLInputElement>(null);
 
   const fetchChart = () => {
-    console.log(values);
     axios
       .get("https://itunes.apple.com/us/rss/topalbums/limit=100/json") //
       .then((res) => {
@@ -26,35 +22,49 @@ const Chart = () => {
       });
   };
 
-  useEffect(() => {
-    fetchChart();
-  }, []);
-
-  useEffect(() => {
+  const handleClickSort = (sort: Sort | null) => () => {
     if (dispatch) {
       dispatch({
         type: "SORT_MUSICS",
         payload: {
-          sort: values.sort as Sort,
+          sort,
         },
       });
     }
-  }, [values]);
+  };
 
-  console.log(musics);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!inputEl.current?.value) return;
+
+    e.preventDefault();
+
+    if (dispatch) {
+      dispatch({
+        type: "SEARCH_MUSIC",
+        payload: {
+          keyword: inputEl.current.value,
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchChart();
+  }, []);
 
   return (
     <div>
-      <form>
-        <input type="text" />
+      <form onSubmit={handleSubmit}>
+        <input type="text" ref={inputEl} />
         <button>검색</button>
       </form>
       <div>
-        <Link to={"/chart?sort=ASC"}>오름차순</Link>
-        <Link to={"/chart?sort=DESC"}>내림차순</Link>
+        <button onClick={handleClickSort(null)}>랭킹순</button>
+        <button onClick={handleClickSort("ASC")}>오름차순</button>
+        <button onClick={handleClickSort("DESC")}>내림차순</button>
       </div>
       <ol>
-        {musics.map((music, index) => (
+        {musics.map((music) => (
           <li key={music["id"]["attributes"]["im:id"]}>{music["im:name"]["label"]}</li>
         ))}
       </ol>

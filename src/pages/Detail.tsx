@@ -4,6 +4,7 @@ import { MusicsDispatchContext, MusicsStateContext, cachedMusics } from "../cont
 import axios from "axios";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import { Music } from "../types/music";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -23,6 +24,11 @@ const MusicDetailGroup = styled.div`
   border: 1px solid #e5e5e5;
   border-radius: 6px;
   padding: 30px 0 30px 10px;
+
+  .thumbnail {
+    width: 170px;
+    height: 170px;
+  }
 
   .music-title {
     font-size: 22px;
@@ -61,7 +67,7 @@ const DescriptionGroup = styled.dl`
 `;
 
 const Detail = () => {
-  const [music, setMusic] = useState<any>();
+  const [music, setMusic] = useState<Music>();
   const musics = useContext(MusicsStateContext);
   const dispatch = useContext(MusicsDispatchContext);
   const params = useParams();
@@ -96,14 +102,18 @@ const Detail = () => {
       <MusicDetailGroup>
         <div>
           <a href={music["link"]["attributes"]["href"]} target="_blank" rel="noreferrer">
-            <img src={music["im:image"][2]["label"]} alt="" />
+            <img className="thumbnail" src={music["im:image"][2]["label"]} alt="" />
           </a>
         </div>
         <div style={{ flex: 1 }}>
           <p className="music-title">{music["im:name"]["label"]}</p>
-          <a href={music["im:artist"]["attributes"]["href"]} target="_blank" rel="noreferrer" className="artist">
-            {music["im:artist"]["label"]}
-          </a>
+          {music["im:artist"]["attributes"]?.["href"] ? (
+            <a href={music["im:artist"]["attributes"]["href"]} target="_blank" rel="noreferrer" className="artist">
+              {music["im:artist"]["label"]}
+            </a>
+          ) : (
+            <p className="artist">{music["im:artist"]["label"]}</p>
+          )}
           <DescriptionGroup>
             <dt>발매일</dt>
             <dd>{dayjs(music["im:releaseDate"]["label"]).format("YYYY.MM.DD")}</dd>

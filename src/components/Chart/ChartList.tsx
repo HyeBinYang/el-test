@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { MusicsDispatchContext, MusicsStateContext } from "../../context/MusicsContext";
+import { MusicsDispatchContext, MusicsStateContext, cachedMusics } from "../../context/MusicsContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
@@ -80,7 +80,7 @@ const ChartList = () => {
   };
 
   useEffect(() => {
-    fetchChart();
+    if (!cachedMusics.length) fetchChart();
   }, []);
 
   return (

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Chart from "./pages/Chart";
 import Detail from "./pages/Detail";
-import { MusicsProvider } from "./context/MusicsContext";
+import { MusicsDispatchContext, MusicsProvider } from "./context/MusicsContext";
+import axios from "axios";
 
 const App = () => {
   return (

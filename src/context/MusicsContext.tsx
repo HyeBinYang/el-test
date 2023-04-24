@@ -2,7 +2,7 @@ import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type Musics = any[];
 
-let cachedMusics: Musics = [];
+export let cachedMusics: Musics = [];
 
 export const MusicsStateContext = createContext<Musics>([]);
 

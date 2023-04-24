@@ -41,7 +41,9 @@ const musicsReducer = (state: Musics, actions: Action) => {
       }
     }
     case "SEARCH_MUSIC": {
-      return state.filter((music) => music["im:name"]["label"].toLowerCase().includes(actions.payload.keyword));
+      state = [...cachedMusics];
+      const searchedMusics = state.filter((music) => music["im:name"]["label"].toLowerCase().includes(actions.payload.keyword));
+      return [...searchedMusics];
     }
     default:
       return state;

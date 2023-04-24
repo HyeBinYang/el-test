@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { MusicsDispatchContext, MusicsStateContext, cachedMusics } from "../context/MusicsContext";
 import axios from "axios";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -105,7 +106,7 @@ const Detail = () => {
           </a>
           <DescriptionGroup>
             <dt>발매일</dt>
-            <dd>{music["im:releaseDate"]["attributes"]["label"]}</dd>
+            <dd>{dayjs(music["im:releaseDate"]["label"]).format("YYYY.MM.DD")}</dd>
             <dt>장르</dt>
             <dd>{music["category"]["attributes"]["term"]}</dd>
             <dt>가격</dt>

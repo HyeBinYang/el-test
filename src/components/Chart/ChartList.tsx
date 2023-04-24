@@ -3,6 +3,7 @@ import { MusicsDispatchContext, MusicsStateContext, cachedMusics } from "../../c
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 const MusicChartTable = styled.table`
   width: 100%;
@@ -90,11 +91,6 @@ const ChartList = () => {
 
   return (
     <MusicChartTable>
-      <colgroup>
-        <col style={{ width: "50px" }} />
-        <col style={{ width: "calc(100% - 150px)" }} />
-        <col style={{ width: "100px" }} />
-      </colgroup>
       <thead>
         <tr>
           <th scope="col">순위</th>
@@ -105,7 +101,7 @@ const ChartList = () => {
       <tbody>
         {musics.map((music, index) => (
           <tr key={music["id"]["attributes"]["im:id"]} onClick={() => navigate(`/detail/${music["id"]["attributes"]["im:id"]}`)}>
-            <td className="center">
+            <td className="center" width="50px">
               <span>{index + 1}</span>
             </td>
             <td>
@@ -117,8 +113,8 @@ const ChartList = () => {
                 </div>
               </MusicInfoGroup>
             </td>
-            <td className="center">
-              <p className="release-date">{music["im:releaseDate"]["attributes"]["label"]}</p>
+            <td className="center" width="100px">
+              <p className="release-date">{dayjs(music["im:releaseDate"]["label"]).format("YYYY.MM.DD")}</p>
             </td>
           </tr>
         ))}

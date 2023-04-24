@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+# 과제 테스트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 이름
 
-## Available Scripts
+양혜빈
 
-In the project directory, you can run:
+## 프로젝트 구동 방법
 
-### `npm start`
+```zsh
+npm install // node package install
+npm start // react start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+기본 포트 값은 3000번 입니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 기능 설명
 
-### `npm test`
+### 1. 차트 페이지 (/chart)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 최초로 렌더링 했을 때는 랭킹순으로 정렬되어있습니다.
+- 오름차순 or 내림차순 버튼을 클릭하면 해당 방식으로 정렬됩니다.
+- 해당 곡을 클릭하면 상세 페이지로 이동됩니다.
+- 검색기능은 노래제목에 해당 문자열이 포함되면 검색됩니다.
+- 빈 칸으로 검색하면 전체 값이 나옵니다.
 
-### `npm run build`
+### 2. 상세 페이지 (/detail/:id)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 해당 데이터에 대한 정보를 렌더링합니다.
+- 엘범 사진을 클릭하면 해당 엘범정보의 apple music 사이트로 이동됩니다.
+- 가수 이름을 클릭하면 해당 가수정보의 apple music 사이트로 이동됩니다.
+- 가수 이름에 대한 링크가 없으면 클릭이 안됩니다.

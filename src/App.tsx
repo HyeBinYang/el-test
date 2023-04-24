@@ -1,18 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Chart from "./pages/Chart";
-import Detail from "./pages/Detail";
-import { MusicsDispatchContext, MusicsProvider } from "./context/MusicsContext";
-import axios from "axios";
+import { MusicsProvider } from "./context/MusicsContext";
+
+const Chart = lazy(() => import("./pages/Chart"));
+const Detail = lazy(() => import("./pages/Detail"));
 
 const App = () => {
   return (
     <>
       <MusicsProvider>
-        <Routes>
-          <Route path="/chart" element={<Chart />} />
-          <Route path="/detail/:id" element={<Detail />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/chart" element={<Chart />} />
+            <Route path="/detail/:id" element={<Detail />} />
+          </Routes>
+        </Suspense>
       </MusicsProvider>
     </>
   );
